@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { cn } from "~/lib/utils";
+import { Icons } from "./icons";
 
 export function Sidebar() {
   const router = useRouter();
@@ -15,6 +16,7 @@ export function Sidebar() {
             router.asPath === "/polls" ? "bg-accent" : "transparent"
           )}
         >
+          <Icons.pizza className="mr-2 h-4 w-4" />
           <span>Polls</span>
         </span>
       </Link>

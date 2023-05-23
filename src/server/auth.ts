@@ -18,7 +18,6 @@ declare module "next-auth" {
     user: {
       id: string;
       name: string;
-      avatarUrl: string;
     } & DefaultSession["user"];
   }
 
@@ -50,7 +49,7 @@ export const authOptions: NextAuthOptions = {
         ...session,
         user: {
           name: token.name,
-          avatarUrl: token.picture,
+          image: token.picture,
           id: token.id,
         },
       };

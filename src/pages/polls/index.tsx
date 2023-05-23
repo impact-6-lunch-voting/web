@@ -1,6 +1,7 @@
 import { Layout } from "~/components/layout";
-import { Button } from "~/components/ui/button";
+import { buttonVariants } from "~/components/ui/button";
 import { useGetPolls } from "~/lib/polls/use-get-polls";
+import Link from "next/link";
 
 export default function PollsPage() {
   const { data: polls = [], isLoading } = useGetPolls();
@@ -20,7 +21,12 @@ export default function PollsPage() {
                 <h2 className="font-heading text-lg">
                   No polls yet, start your first poll now
                 </h2>
-                <Button variant="default">Add poll</Button>
+                <Link
+                  className={buttonVariants({ variant: "default" })}
+                  href="/polls/add"
+                >
+                  Add Poll
+                </Link>
               </div>
             ) : (
               <div className="flex flex-col space-x-6">

@@ -10,9 +10,6 @@ export function Sidebar() {
   const { status: sessionStatus, data: sessionData } = useSession();
   const username = sessionData?.user?.name;
   const userimage = sessionData?.user?.image ?? undefined;
-
-  console.log(userimage);
-
   return (
     <div className="flex flex-col gap-6 p-3 px-0 md:gap-10">
       <div>Lunch voting icon here</div>
@@ -28,13 +25,16 @@ export function Sidebar() {
           </span>
         </Link>
       ) : (
-        <div className="gap-6s flex items-center gap-4">
-          <p>Hey, {username}!</p>
+        <div className="flex flex-col gap-2">
+          <div className="gap-6s flex items-center gap-4">
+            <p>Hey, {username}!</p>
 
-          <Avatar>
-            <AvatarImage src={userimage}></AvatarImage>
-            <AvatarFallback>{username?.slice(0, 2)}</AvatarFallback>
-          </Avatar>
+            <Avatar>
+              <AvatarImage src={userimage}></AvatarImage>
+              <AvatarFallback>{username?.slice(0, 2)}</AvatarFallback>
+            </Avatar>
+          </div>
+
           <Link href="/api/auth/signout">
             <span
               className={cn(

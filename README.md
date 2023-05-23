@@ -1,28 +1,54 @@
-# Create T3 App
+# WEB for lunch-voting
 
-This is a [T3 Stack](https://create.t3.gg/) project bootstrapped with `create-t3-app`.
+## folder structure
 
-## What's next? How do I make an app with this?
+```sh
+.
+├─ public # holds all public images
+├─ src
+│  ├─ components # you can find all components here
+│  │  ├─ ui # all Shadcn components
+│  │  └─ ... # all custom components can be found here
+│  ├─ lib # holds data transfer objects (read: requests and responses)
+│  ├─ pages # contains all pages, see https://nextjs.org/docs/pages/building-your-application/routing for more information
+│  ├─ server # we do not need this folder for now
+│  └─ styles # contains all tailwind base styles and resets
+├─ .env # holds environment variables for local environment
+└─ package.json # contains a list of our dependencies
 
-We try to keep this project as simple as possible, so you can start with just the scaffolding we set up for you, and add additional things later when they become necessary.
+```
 
-If you are not familiar with the different technologies used in this project, please refer to the respective docs. If you still are in the wind, please join our [Discord](https://t3.gg/discord) and ask for help.
+## commands
 
-- [Next.js](https://nextjs.org)
-- [NextAuth.js](https://next-auth.js.org)
-- [Prisma](https://prisma.io)
-- [Tailwind CSS](https://tailwindcss.com)
-- [tRPC](https://trpc.io)
+### install pnpm
 
-## Learn More
+If you don't have pnpm installed, go to [pnpm Installation](https://pnpm.io/installation)
 
-To learn more about the [T3 Stack](https://create.t3.gg/), take a look at the following resources:
+```sh
+# Install pnpm according to your OS
 
-- [Documentation](https://create.t3.gg/)
-- [Learn the T3 Stack](https://create.t3.gg/en/faq#what-learning-resources-are-currently-available) — Check out these awesome tutorials
+pnpm --version
+# 8.5.1
+```
 
-You can check out the [create-t3-app GitHub repository](https://github.com/t3-oss/create-t3-app) — your feedback and contributions are welcome!
+### install all dependencies
 
-## How do I deploy this?
+```sh
+pnpm install
+```
 
-Follow our deployment guides for [Vercel](https://create.t3.gg/en/deployment/vercel), [Netlify](https://create.t3.gg/en/deployment/netlify) and [Docker](https://create.t3.gg/en/deployment/docker) for more information.
+### run `web` with
+
+```sh
+pnpm dev
+```
+
+### install new Shadcn component
+
+Select pnpm to install a Shadcn component!
+
+```sh
+pnpx shadcn-ui add button
+
+# remember to install the Shadcn component in src/components/ui
+```

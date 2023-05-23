@@ -10,6 +10,7 @@ export function Sidebar() {
   const { status: sessionStatus, data: sessionData } = useSession();
   const username = sessionData?.user?.name;
   const userimage = sessionData?.user?.image ?? undefined;
+
   return (
     <div className="flex flex-col gap-6 p-3 px-0 md:gap-10">
       <div>Lunch voting icon here</div>

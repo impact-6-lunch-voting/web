@@ -17,7 +17,7 @@ export default function LoginPage() {
     <Layout>
       <div className="container space-y-6">
         <div className="flex justify-center gap-6 align-middle">
-          <Button onClick={() => signIn("github")}>Login</Button>
+          <Button onClick={() => void signIn("github")}>Login</Button>
         </div>
       </div>
     </Layout>

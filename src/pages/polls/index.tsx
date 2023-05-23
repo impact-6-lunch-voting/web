@@ -8,8 +8,8 @@ export default function PollsPage({
 }: InferGetStaticPropsType<typeof getStaticProps>) {
   return (
     <Layout>
-      <div className="container">
-        <h1 className="font-heading text-3xl md:text-4xl">Polls</h1>
+      <div className="container space-y-6">
+        <h1 className="font-heading text-4xl md:text-4xl">Polls</h1>
         <div>
           {!polls.length ? (
             <div className="flex justify-center gap-6 align-middle">
@@ -19,11 +19,16 @@ export default function PollsPage({
               <Button variant="default">Add poll</Button>
             </div>
           ) : (
-            <ul>
+            <div className="flex flex-col space-x-6">
               {polls.map((poll) => (
-                <li key={poll.id}>{poll.title}</li>
+                <div
+                  key={poll.id}
+                  className="w-full rounded-lg border border-gray-200 p-3 px-5"
+                >
+                  {poll.title}
+                </div>
               ))}
-            </ul>
+            </div>
           )}
         </div>
       </div>

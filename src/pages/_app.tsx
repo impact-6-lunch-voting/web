@@ -1,7 +1,7 @@
-import { type AppType } from "next/app";
 import { type Session } from "next-auth";
 import { SessionProvider } from "next-auth/react";
-import { Inter, Montserrat } from "next/font/google";
+import { type AppType } from "next/app";
+import { Inter, Syne } from "next/font/google";
 
 import "~/styles/globals.css";
 
@@ -11,7 +11,7 @@ const fontSans = Inter({
 });
 
 // Font files can be colocated inside of `pages`
-const fontHeading = Montserrat({
+const fontHeading = Syne({
   subsets: ["latin"],
   variable: "--font-heading",
 });

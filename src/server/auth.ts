@@ -1,10 +1,10 @@
 import { type GetServerSidePropsContext } from "next";
 import {
+  type DefaultSession,
   getServerSession,
   type NextAuthOptions,
-  type DefaultSession,
 } from "next-auth";
-import DiscordProvider from "next-auth/providers/discord";
+import GitHubProvider from "next-auth/providers/github";
 import { env } from "~/env.mjs";
 
 /**
@@ -17,15 +17,22 @@ declare module "next-auth" {
   interface Session extends DefaultSession {
     user: {
       id: string;
-      // ...other properties
-      // role: UserRole;
+      name: string;
+      avatarUrl: string;
     } & DefaultSession["user"];
   }
 
-  // interface User {
-  //   // ...other properties
-  //   // role: UserRole;
-  // }
+  interface Profile {
+    login: string;
+    avatar_url: string;
+    id: string;
+  }
+}
+
+declare module "next-auth/jwt" {
+  export interface JWT {
+    id: string;
+  }
 }
 
 /**
@@ -34,20 +41,36 @@ declare module "next-auth" {
  * @see https://next-auth.js.org/configuration/options
  */
 export const authOptions: NextAuthOptions = {
+  secret: env.NEXTAUTH_SECRET,
+  debug: true,
+
   callbacks: {
-    session: ({ session, user }) => ({
-      ...session,
-      user: {
-        ...session.user,
-        id: user.id,
-      },
-    }),
+    session: ({ session, token }) => {
+      return {
+        ...session,
+        user: {
+          name: token.name,
+          avatarUrl: token.picture,
+          id: token.id,
+        },
+      };
+    },
+    jwt: ({ token, profile }) => {
+      if (profile) {
+        token.name = profile.login;
+        token.picture = profile.avatar_url;
+        token.id = profile.id;
+      }
+
+      return token;
+    },
   },
   providers: [
-    DiscordProvider({
-      clientId: env.DISCORD_CLIENT_ID,
-      clientSecret: env.DISCORD_CLIENT_SECRET,
+    GitHubProvider({
+      clientId: env.GITHUB_CLIENT_ID,
+      clientSecret: env.GITHUB_CLIENT_SECRET,
     }),
+
     /**
      * ...add more providers here.
      *

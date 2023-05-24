@@ -2,6 +2,37 @@ import { type NextPage } from "next";
 import Head from "next/head";
 import Link from "next/link";
 import { Icons } from "~/components/icons";
+import { Avatar, AvatarFallback, AvatarImage } from "~/components/ui/avatar";
+import { Button } from "~/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "~/components/ui/card";
+import { toLocalizedTime } from "~/lib/localization/to-localized-time";
+import { type Group } from "~/lib/types/Group";
+
+const groups: Group[] = [
+  {
+    name: "Die Coolen",
+    location: "Restaurant zum goldenen Anker",
+    startedAt: "2023-05-24T12:00:00+00:00",
+    finishedAt: "2023-05-24T13:00:00+00:00",
+    poll: {
+      name: "Restaurant",
+      startedAt: "2023-05-24T09:30:00+00:00",
+      finishedAt: "2023-05-24T11:00:00+00:00",
+      choices: [
+        { name: "Restaurant zum goldenen Anker", votes: [] },
+        { name: "Woanders", votes: [] },
+      ],
+    },
+    joinedUsers: [
+      {
+        profileName: "MechTee",
+        avatarUrl:
+          "https://t1.gstatic.com/licensed-image?q=tbn:ANd9GcShOeREOxQiNZUjbvhtxqDlV5vSPGvoriYwVrUgvdc417UDhf0ssygBeLxOul5YIqIy",
+        socialId: "nix",
+      },
+    ],
+  },
+];
 
 const Home: NextPage = () => {
   return (
@@ -20,16 +51,71 @@ const Home: NextPage = () => {
             Schließe dich einer Gruppe an oder erstelle eine eigene
           </h2>
           <div>
-            <Link href="/create-group">
-              <span className="group flex items-center rounded-md bg-violet-500 px-3 py-2 text-sm font-medium text-white hover:bg-accent hover:text-accent-foreground">
+            <Button asChild variant="ghost">
+              <Link href="/create-group">
                 <Icons.add className="mr-2 h-4 w-4" />
                 <span>Gruppe hinzufügen</span>
-              </span>
-            </Link>
+              </Link>
+            </Button>
           </div>
         </div>
 
-        <div></div>
+        {groups.map((group, index) => {
+          return (
+            <Card key={index}>
+              <CardHeader>
+                <div className="flex items-center justify-between">
+                  <CardTitle>{group.name}</CardTitle>
+                  <Button variant="default">Gruppe beitreten</Button>
+                </div>
+              </CardHeader>
+              <CardContent>
+                <div className="flex space-x-12">
+                  <div>
+                    <div className="flex items-center font-bold text-violet-400">
+                      <Icons.mapPin className="mr-2 h-4 w-4" />
+                      <span>Ort</span>
+                    </div>
+                    <div className="flex min-h-[44px] items-center text-lg">
+                      {group.location}
+                    </div>
+                  </div>
+
+                  <div>
+                    <div className="flex items-center font-bold text-violet-400">
+                      <Icons.clock2 className="mr-2 h-4 w-4" />
+                      <span>Zeit</span>
+                    </div>
+                    <div className="flex min-h-[44px] items-center text-lg">
+                      {toLocalizedTime(group.startedAt)} -{" "}
+                      {toLocalizedTime(group.finishedAt)}
+                    </div>
+                  </div>
+
+                  <div>
+                    <div className="flex items-center font-bold text-violet-400">
+                      <Icons.users className="mr-2 h-4 w-4" />
+                      <span>Teilnehmer</span>
+                    </div>
+                    {group.joinedUsers.map((user, userIndex) => {
+                      return (
+                        <div
+                          key={userIndex}
+                          className="flex min-h-[44px] items-center text-lg"
+                        >
+                          <Avatar>
+                            <AvatarImage src={user.avatarUrl} />
+                            <AvatarFallback>{user.profileName}</AvatarFallback>
+                          </Avatar>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          );
+        })}
       </main>
     </>
   );

@@ -1,6 +1,8 @@
+import { type Choice } from "~/lib/types/Choice";
+
 export interface Poll {
-  id?: number;
-  uuid: string;
-  title: string;
-  created_at: string;
+  name: string;
+  choices: Choice[];
+  startedAt: string;
+  finishedAt: string;
 }

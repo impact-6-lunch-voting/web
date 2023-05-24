@@ -8,13 +8,13 @@ import { Avatar, AvatarFallback, AvatarImage } from "~/components/ui/avatar";
 
 const sidebarRoutes: SidebarRoute[] = [
   {
-    routeText: "Polls",
-    routeUrl: "/polls",
+    routeText: "Groups",
+    routeUrl: "/",
     routeIcon: <Icons.pizza className="mr-2 h-4 w-4" />,
   },
   {
-    routeText: "Add Poll",
-    routeUrl: "/polls/add",
+    routeText: "Add Group",
+    routeUrl: "/groups/add",
     routeIcon: <Icons.add className="mr-2 h-4 w-4" />,
   },
 ];

@@ -25,7 +25,7 @@ interface PollFormProps {
 export function PollForm({ poll, groupId }: PollFormProps) {
   const queryClient = useQueryClient();
 
-  const { mutate } = useMutation({
+  const { mutate: addVoteToPollMutation } = useMutation({
     mutationFn: (variables: { choiceName: string; userId: string }) =>
       addVoteToPoll(variables.choiceName, variables.userId, poll.id),
     onSuccess: () => {
@@ -69,7 +69,7 @@ export function PollForm({ poll, groupId }: PollFormProps) {
       showErrorToast();
       return;
     }
-    mutate({
+    addVoteToPollMutation({
       userId,
       choiceName: data.name,
     });

@@ -83,7 +83,7 @@ export function PollForm({ poll, groupId }: PollFormProps) {
           name="name"
           render={({ field }) => (
             <FormItem className="space-y-3">
-              <FormLabel>Select a lunch option!</FormLabel>
+              <FormLabel className="text-3xl">Select a lunch option!</FormLabel>
               <FormControl>
                 <RadioGroup
                   onValueChange={field.onChange}
@@ -98,7 +98,7 @@ export function PollForm({ poll, groupId }: PollFormProps) {
                       <FormControl>
                         <RadioGroupItem value={name} />
                       </FormControl>
-                      <FormLabel className="font-normal">
+                      <FormLabel className="text-2xl font-normal">
                         {name} - Amount of votes: {votes.length}
                       </FormLabel>
                     </FormItem>

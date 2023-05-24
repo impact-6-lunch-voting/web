@@ -16,6 +16,9 @@ import {
   FormLabel,
   FormMessage,
 } from "~/components/ui/form";
+import React from "react";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { addGroup } from "~/lib/groups/add-group";
 
 const FormSchema = z.object({
   groupName: z.string().min(2, {
@@ -26,20 +29,41 @@ const FormSchema = z.object({
   }),
 });
 
-export function AddGroupForm() {
+interface AddGroupFormProps {
+  onSubmitSuccessful: () => void;
+}
+
+export function AddGroupForm({ onSubmitSuccessful }: AddGroupFormProps) {
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
   });
 
+  const queryClient = useQueryClient();
+
+  const { mutate: addGroupMutation } = useMutation({
+    mutationFn: (variables: z.infer<typeof FormSchema>) =>
+      addGroup({
+        location: variables.location,
+        name: variables.groupName,
+      }),
+    onSuccess: () => {
+      toast({
+        title: "Successfully created group!",
+        variant: "success",
+      });
+      void queryClient.invalidateQueries({ queryKey: ["groups"] });
+      onSubmitSuccessful();
+    },
+    onError: () => {
+      toast({
+        title: "Error while creating group!",
+        variant: "destructive",
+      });
+    },
+  });
+
   function onSubmit(data: z.infer<typeof FormSchema>) {
-    toast({
-      title: "You submitted the following values:",
-      description: (
-        <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-          <code className="text-white">{JSON.stringify(data, null, 2)}</code>
-        </pre>
-      ),
-    });
+    addGroupMutation(data);
   }
 
   return (

@@ -7,3 +7,5 @@ export interface Poll {
   startedAt: string;
   finishedAt: string;
 }
+
+export interface PollCreate {}

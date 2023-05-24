@@ -3,24 +3,27 @@ import {
   DialogContent,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
 } from "~/components/ui/dialog";
-import { Button } from "~/components/ui/button";
-import React from "react";
+import React, { useState } from "react";
 import { AddGroupForm } from "~/components/add-group-form";
 import { DialogBody } from "next/dist/client/components/react-dev-overlay/internal/components/Dialog";
+import { Button } from "~/components/ui/button";
 
 export function AddGroupDialog() {
+  const [isOpen, setIsOpen] = useState(false);
+
+  function handleOnSubmitSuccessful() {
+    setIsOpen(false);
+  }
+
   return (
-    <Dialog>
-      <DialogTrigger>
-        <Button>Gruppe hinzufügen</Button>
-      </DialogTrigger>
+    <Dialog open={isOpen} onOpenChange={setIsOpen}>
+      <Button onClick={() => setIsOpen(true)}>Gruppe hinzufügen</Button>
       <DialogContent>
         <DialogHeader>
           <DialogTitle>Gruppe hinzufügen</DialogTitle>
           <DialogBody>
-            <AddGroupForm />
+            <AddGroupForm onSubmitSuccessful={handleOnSubmitSuccessful} />
           </DialogBody>
         </DialogHeader>
       </DialogContent>

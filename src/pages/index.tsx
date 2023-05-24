@@ -46,11 +46,11 @@ const Home: NextPage = () => {
 
       <main className="flex min-h-screen w-full flex-col space-y-6">
         <h1 className="font-heading text-4xl md:text-4xl">Lunch Gruppen</h1>
+        <h2 className="font-heading text-lg text-gray-500">
+          Schließe dich einer Gruppe an oder erstelle eine eigene
+        </h2>
 
         <div className="flex w-full justify-between">
-          <h2 className="font-heading text-lg text-gray-500">
-            Schließe dich einer Gruppe an oder erstelle eine eigene
-          </h2>
           <div>
             <Button asChild variant="ghost">
               <Link href="/create-group">

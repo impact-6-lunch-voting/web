@@ -8,6 +8,12 @@ import { Badge } from "~/components/ui/badge";
 import { Button } from "~/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "~/components/ui/card";
 import { Switch } from "~/components/ui/switch";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "~/components/ui/tooltip";
 import { toLocalizedTime } from "~/lib/localization/to-localized-time";
 import { type Group } from "~/lib/types/Group";
 
@@ -54,8 +60,22 @@ const groups: Group[] = [
     joinedUsers: [
       {
         profileName: "MechTee",
-        avatarUrl:
-          "https://t1.gstatic.com/licensed-image?q=tbn:ANd9GcShOeREOxQiNZUjbvhtxqDlV5vSPGvoriYwVrUgvdc417UDhf0ssygBeLxOul5YIqIy",
+        avatarUrl: "https://avatars.githubusercontent.com/u/6578098?s=64&v=4",
+        socialId: "nix",
+      },
+      {
+        profileName: "PierreBartholomae",
+        avatarUrl: "https://avatars.githubusercontent.com/u/84766047?s=64&v=4",
+        socialId: "nix",
+      },
+      {
+        profileName: "UlasCanAk",
+        avatarUrl: "https://avatars.githubusercontent.com/u/91264278?s=64&v=4",
+        socialId: "nix",
+      },
+      {
+        profileName: "lfext",
+        avatarUrl: "https://avatars.githubusercontent.com/u/134503669?s=96&v=4",
         socialId: "nix",
       },
     ],
@@ -143,21 +163,41 @@ const Home: NextPage = () => {
                           <Icons.users className="mr-2 h-4 w-4" />
                           <span>Teilnehmer</span>
                         </div>
-                        {group.joinedUsers.map((user, userIndex) => {
-                          return (
-                            <div
-                              key={userIndex}
-                              className="flex min-h-[44px] items-center text-lg"
-                            >
-                              <Avatar>
-                                <AvatarImage src={user.avatarUrl} />
-                                <AvatarFallback>
-                                  {user.profileName.slice(0, 2)}
-                                </AvatarFallback>
-                              </Avatar>
-                            </div>
-                          );
-                        })}
+                        <div className="flex">
+                          {group.joinedUsers
+                            .slice(0, 3)
+                            .map((user, userIndex) => {
+                              return (
+                                <div
+                                  key={userIndex}
+                                  className="-m-2 flex min-h-[44px] items-center text-lg"
+                                >
+                                  <TooltipProvider>
+                                    <Tooltip>
+                                      <TooltipTrigger asChild>
+                                        <Avatar className="border-2 border-white">
+                                          <AvatarImage src={user.avatarUrl} />
+                                          <AvatarFallback>
+                                            {user.profileName.slice(0, 2)}
+                                          </AvatarFallback>
+                                        </Avatar>
+                                      </TooltipTrigger>
+                                      <TooltipContent>
+                                        {user.profileName}
+                                      </TooltipContent>
+                                    </Tooltip>
+                                  </TooltipProvider>
+                                </div>
+                              );
+                            })}
+                          {group.joinedUsers.length > 3 ? (
+                            <Avatar className="-m-2 border-2 border-white">
+                              <AvatarFallback>
+                                {`+ ${group.joinedUsers.length - 3}`}
+                              </AvatarFallback>
+                            </Avatar>
+                          ) : null}
+                        </div>
                       </div>
                     </div>
                   </CardContent>

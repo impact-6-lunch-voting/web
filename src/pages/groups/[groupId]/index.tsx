@@ -12,22 +12,18 @@ export default function GroupDetailPage() {
   const router = useRouter();
   const { groupId } = router.query;
 
-  const id = groupId?.[0];
+  const id = groupId as string;
 
-  /*if (!id) void router?.push("/");*/
-
-  const { data: group, isLoading, error } = useGetGroupById(id!);
+  const { data: group, isLoading, error } = useGetGroupById(id);
 
   if (isLoading) return <p>Loading...</p>;
 
   if (!group || error) return <p>Group not found</p>;
 
-  const { name, joinedUsers, location, startedAt, finishedAt, poll } = group;
-
   return (
     <div className="w flex flex-col gap-2 ">
       <div className="flex flex-col gap-2">
-        <h1 className="text-5xl font-bold">Group: {name}</h1>
+        <h1 className="text-5xl font-bold">Group: {group.name}</h1>
         <Card className="mt-12 max-h-[360px] overflow-scroll">
           <CardHeader>
             <div className="flex items-center justify-between">
@@ -95,7 +91,7 @@ export default function GroupDetailPage() {
           </CardContent>
         </Card>
         <div className="flex flex-col pt-20">
-          <PollForm poll={poll} groupId={id} />
+          <PollForm poll={group.poll} groupId={id} />
         </div>
       </div>
     </div>

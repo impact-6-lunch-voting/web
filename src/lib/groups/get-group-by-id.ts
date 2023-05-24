@@ -3,7 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 
 export function getGroupById(id: string) {
   const group: Group = {
-    finishedAt: "",
+    finishedAt: "12:00 Uhr",
     joinedUsers: [
       {
         avatarUrl:
@@ -17,8 +17,8 @@ export function getGroupById(id: string) {
     poll: {
       id: "3ab37b36-fa7b-4812-858f-ef04895f1f50",
       name: "Test-Poll",
-      startedAt: "",
-      finishedAt: "",
+      startedAt: "10:00 Uhr",
+      finishedAt: "12:00 Uhr",
       choices: [
         {
           name: "Choice 1",
@@ -34,7 +34,7 @@ export function getGroupById(id: string) {
         },
       ],
     },
-    startedAt: "",
+    startedAt: "10:00 Uhr",
   };
 
   return group;

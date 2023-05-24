@@ -26,8 +26,17 @@ export function PollForm({ poll, groupId }: PollFormProps) {
   const queryClient = useQueryClient();
 
   const { mutate: addVoteToPollMutation } = useMutation({
-    mutationFn: (variables: { choiceName: string; userId: string }) =>
-      addVoteToPoll(variables.choiceName, variables.userId, poll.id),
+    mutationFn: (variables: {
+      choiceName: string;
+      userId: string;
+      choiceId: string;
+    }) =>
+      addVoteToPoll(
+        variables.choiceName,
+        variables.choiceId,
+        variables.userId,
+        poll.id
+      ),
     onSuccess: () => {
       showSuccessToast();
       void queryClient.invalidateQueries({ queryKey: ["groups", groupId] });
@@ -65,12 +74,15 @@ export function PollForm({ poll, groupId }: PollFormProps) {
   }
 
   function onSubmit(data: z.infer<typeof FormSchema>) {
-    if (!userId) {
+    const choice = poll.choices.find((value) => value.name === data.name);
+    if (!userId || !choice) {
       showErrorToast();
       return;
     }
+
     addVoteToPollMutation({
       userId,
+      choiceId: choice.id,
       choiceName: data.name,
     });
   }

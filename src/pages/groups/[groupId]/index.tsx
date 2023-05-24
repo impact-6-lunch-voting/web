@@ -87,51 +87,6 @@ export default function GroupDetailPage() {
                         </Avatar>
                         <p className="pl-2">{user.profileName}</p>
                       </div>
-                      <div className="flex flex-row gap-2">
-                        <Avatar>
-                          <AvatarImage src={user.avatarUrl} />
-                          <AvatarFallback>
-                            {user.profileName.slice(0, 2)}
-                          </AvatarFallback>
-                        </Avatar>
-                        <p className="pl-2">{user.profileName}</p>
-                      </div>
-                      <div className="flex flex-row gap-2">
-                        <Avatar>
-                          <AvatarImage src={user.avatarUrl} />
-                          <AvatarFallback>
-                            {user.profileName.slice(0, 2)}
-                          </AvatarFallback>
-                        </Avatar>
-                        <p className="pl-2">{user.profileName}</p>
-                      </div>
-                      <div className="flex flex-row gap-2">
-                        <Avatar>
-                          <AvatarImage src={user.avatarUrl} />
-                          <AvatarFallback>
-                            {user.profileName.slice(0, 2)}
-                          </AvatarFallback>
-                        </Avatar>
-                        <p className="pl-2">{user.profileName}</p>
-                      </div>
-                      <div className="flex flex-row gap-2">
-                        <Avatar>
-                          <AvatarImage src={user.avatarUrl} />
-                          <AvatarFallback>
-                            {user.profileName.slice(0, 2)}
-                          </AvatarFallback>
-                        </Avatar>
-                        <p className="pl-2">{user.profileName}</p>
-                      </div>
-                      <div className="flex flex-row gap-2">
-                        <Avatar>
-                          <AvatarImage src={user.avatarUrl} />
-                          <AvatarFallback>
-                            {user.profileName.slice(0, 2)}
-                          </AvatarFallback>
-                        </Avatar>
-                        <p className="pl-2">{user.profileName}</p>
-                      </div>
                     </div>
                   );
                 })}

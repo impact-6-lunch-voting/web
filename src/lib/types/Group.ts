@@ -6,6 +6,6 @@ export interface Group {
   joinedUsers: User[];
   startedAt: string;
   finishedAt: string;
-  location: string;
+  location: string | null;
   poll: Poll;
 }

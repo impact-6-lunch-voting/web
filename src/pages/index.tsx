@@ -1,10 +1,13 @@
 import { type NextPage } from "next";
 import Head from "next/head";
 import Link from "next/link";
+import { useState } from "react";
 import { Icons } from "~/components/icons";
 import { Avatar, AvatarFallback, AvatarImage } from "~/components/ui/avatar";
+import { Badge } from "~/components/ui/badge";
 import { Button } from "~/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "~/components/ui/card";
+import { Switch } from "~/components/ui/switch";
 import { toLocalizedTime } from "~/lib/localization/to-localized-time";
 import { type Group } from "~/lib/types/Group";
 
@@ -33,9 +36,34 @@ const groups: Group[] = [
       },
     ],
   },
+  {
+    name: "Pizza lovers",
+    location: null,
+    startedAt: "2023-05-24T12:00:00+00:00",
+    finishedAt: "2023-05-24T13:00:00+00:00",
+    poll: {
+      id: "123",
+      name: "Restaurant",
+      startedAt: "2023-05-24T09:30:00+00:00",
+      finishedAt: "2023-05-24T11:00:00+00:00",
+      choices: [
+        { name: "Restaurant zum goldenen Anker", votes: [] },
+        { name: "Woanders", votes: [] },
+      ],
+    },
+    joinedUsers: [
+      {
+        profileName: "MechTee",
+        avatarUrl:
+          "https://t1.gstatic.com/licensed-image?q=tbn:ANd9GcShOeREOxQiNZUjbvhtxqDlV5vSPGvoriYwVrUgvdc417UDhf0ssygBeLxOul5YIqIy",
+        socialId: "nix",
+      },
+    ],
+  },
 ];
 
 const Home: NextPage = () => {
+  const [isLocationVoteFinished, setIsLocationVoteFinished] = useState();
   return (
     <>
       <Head>
@@ -51,76 +79,92 @@ const Home: NextPage = () => {
         </h2>
 
         <div className="flex w-full justify-between">
-          <div>
-            <Button asChild variant="ghost">
-              <Link href="/create-group">
-                <Icons.add className="mr-2 h-4 w-4" />
-                <span>Gruppe hinzufügen</span>
-              </Link>
-            </Button>
+          <div className="flex items-center space-x-3">
+            <Switch
+              checked={isLocationVoteFinished}
+              onCheckedChange={setIsLocationVoteFinished}
+            />
+            <span>Location steht fest</span>
           </div>
+          <Button asChild variant="ghost">
+            <Link href="/create-group">
+              <Icons.add className="mr-2 h-4 w-4" />
+              <span>Gruppe hinzufügen</span>
+            </Link>
+          </Button>
         </div>
 
-        {groups.map((group, index) => {
-          return (
-            <Link key={index} href="/groups/123">
-              <Card>
-                <CardHeader>
-                  <div className="flex items-center justify-between">
-                    <CardTitle>{group.name}</CardTitle>
-                    <Button variant="default">Gruppe beitreten</Button>
-                  </div>
-                </CardHeader>
-                <CardContent>
-                  <div className="flex space-x-12">
-                    <div>
-                      <div className="flex items-center font-bold text-violet-400">
-                        <Icons.mapPin className="mr-2 h-4 w-4" />
-                        <span>Ort</span>
-                      </div>
-                      <div className="flex min-h-[44px] items-center text-lg">
-                        {group.location}
-                      </div>
+        {groups
+          .filter((group) => (isLocationVoteFinished ? !!group.location : true))
+          .map((group, index) => {
+            return (
+              <Link key={index} href="/groups/123">
+                <Card>
+                  <CardHeader>
+                    <div className="flex items-center justify-between">
+                      <CardTitle>{group.name}</CardTitle>
+                      <Button variant="default">Gruppe beitreten</Button>
                     </div>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="flex space-x-12">
+                      <div className="min-w-[300px]">
+                        <div className="flex h-12 items-center font-bold text-violet-400">
+                          <Icons.mapPin className="mr-2 h-4 w-4" />
+                          <span>Location</span>
+                        </div>
+                        <div className="flex min-h-[44px] items-center text-lg">
+                          {group.location ? (
+                            <span>{group.location}</span>
+                          ) : (
+                            <div>
+                              <Badge variant="secondary">
+                                Voting aktiv bis{" "}
+                                {toLocalizedTime(group.poll.finishedAt)} Uhr
+                              </Badge>
+                            </div>
+                          )}
+                        </div>
+                      </div>
 
-                    <div>
-                      <div className="flex items-center font-bold text-violet-400">
-                        <Icons.clock2 className="mr-2 h-4 w-4" />
-                        <span>Zeit</span>
+                      <div className="min-w-[200px]">
+                        <div className="flex h-12 items-center font-bold text-violet-400">
+                          <Icons.clock2 className="mr-2 h-4 w-4" />
+                          <span>Zeit</span>
+                        </div>
+                        <div className="flex min-h-[44px] items-center text-lg">
+                          {toLocalizedTime(group.startedAt)} -{" "}
+                          {toLocalizedTime(group.finishedAt)} Uhr
+                        </div>
                       </div>
-                      <div className="flex min-h-[44px] items-center text-lg">
-                        {toLocalizedTime(group.startedAt)} -{" "}
-                        {toLocalizedTime(group.finishedAt)}
-                      </div>
-                    </div>
 
-                    <div>
-                      <div className="flex items-center font-bold text-violet-400">
-                        <Icons.users className="mr-2 h-4 w-4" />
-                        <span>Teilnehmer</span>
+                      <div>
+                        <div className="flex h-12 items-center font-bold text-violet-400">
+                          <Icons.users className="mr-2 h-4 w-4" />
+                          <span>Teilnehmer</span>
+                        </div>
+                        {group.joinedUsers.map((user, userIndex) => {
+                          return (
+                            <div
+                              key={userIndex}
+                              className="flex min-h-[44px] items-center text-lg"
+                            >
+                              <Avatar>
+                                <AvatarImage src={user.avatarUrl} />
+                                <AvatarFallback>
+                                  {user.profileName.slice(0, 2)}
+                                </AvatarFallback>
+                              </Avatar>
+                            </div>
+                          );
+                        })}
                       </div>
-                      {group.joinedUsers.map((user, userIndex) => {
-                        return (
-                          <div
-                            key={userIndex}
-                            className="flex min-h-[44px] items-center text-lg"
-                          >
-                            <Avatar>
-                              <AvatarImage src={user.avatarUrl} />
-                              <AvatarFallback>
-                                {user.profileName.slice(0, 2)}
-                              </AvatarFallback>
-                            </Avatar>
-                          </div>
-                        );
-                      })}
                     </div>
-                  </div>
-                </CardContent>
-              </Card>
-            </Link>
-          );
-        })}
+                  </CardContent>
+                </Card>
+              </Link>
+            );
+          })}
       </main>
     </>
   );

@@ -56,6 +56,10 @@ const Home: NextPage = () => {
               isLocationVoteFinished ? !!group.location : true
             )
             .map((group, index) => {
+              const highestVote = group.poll.choices.sort(function (a, b) {
+                return b.votes.length - a.votes.length;
+              })[0];
+
               return (
                 <Link key={index} href={`/groups/${group.id}`}>
                   <Card>
@@ -84,7 +88,7 @@ const Home: NextPage = () => {
                           </div>
                           <div className="flex min-h-[44px] items-center text-lg">
                             {group.location ? (
-                              <span>TODO</span>
+                              <span>{highestVote?.name}</span>
                             ) : (
                               <div>
                                 <Badge variant="secondary">

@@ -6,6 +6,7 @@ import { Inter, Syne } from "next/font/google";
 import "~/styles/globals.css";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+import { Layout } from "~/components/layout";
 
 const fontSans = Inter({
   subsets: ["latin"],
@@ -27,9 +28,11 @@ const MyApp: AppType<{ session: Session | null }> = ({
   return (
     <QueryClientProvider client={queryClient}>
       <SessionProvider session={session}>
+          <Layout>
         <div className={(fontSans.variable, fontHeading.variable)}>
           <Component {...pageProps} />
         </div>
+          </Layout>
       </SessionProvider>
       <ReactQueryDevtools initialIsOpen={false} />
     </QueryClientProvider>

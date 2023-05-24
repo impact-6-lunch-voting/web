@@ -41,8 +41,6 @@ declare module "next-auth/jwt" {
  */
 export const authOptions: NextAuthOptions = {
   secret: env.NEXTAUTH_SECRET,
-  debug: true,
-
   callbacks: {
     session: ({ session, token }) => {
       return {

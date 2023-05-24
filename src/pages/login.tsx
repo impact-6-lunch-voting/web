@@ -1,6 +1,5 @@
 import { signIn, useSession } from "next-auth/react";
 import { useRouter } from "next/router";
-import { Layout } from "~/components/layout";
 import { Button } from "~/components/ui/button";
 
 export default function LoginPage() {
@@ -14,12 +13,10 @@ export default function LoginPage() {
   if (session.status === "authenticated") redirectToHome();
 
   return (
-    <Layout>
-      <div className="container space-y-6">
-        <div className="flex justify-center gap-6 align-middle">
-          <Button onClick={() => void signIn("github")}>Login</Button>
-        </div>
+    <div className="container space-y-6">
+      <div className="flex justify-center gap-6 align-middle">
+        <Button onClick={() => void signIn("github")}>Login</Button>
       </div>
-    </Layout>
+    </div>
   );
 }

@@ -15,6 +15,12 @@ const user2: User = {
   socialId: "RYi",
 };
 
+const user3: User = {
+  avatarUrl: "https://cdn.myanimelist.net/images/characters/14/215001.jpg",
+  profileName: "Sister Joy",
+  socialId: "xSK",
+};
+
 export const groups: Group[] = [
   {
     name: "Tolle Gruppe!",
@@ -22,7 +28,7 @@ export const groups: Group[] = [
     startedAt: "2023-05-24T09:25:26+0000",
     finishedAt: "2023-05-24T10:25:26+0000",
     location: "Stuttgart",
-    joinedUsers: [user1],
+    joinedUsers: [user1, user3],
     poll: {
       id: "d7353f94-0d87-46a3-8329-de23fa789888",
       name: "Coole Poll",

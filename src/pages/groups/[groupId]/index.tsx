@@ -1,13 +1,12 @@
-import { useGetGroupById } from "~/lib/groups/get-group-by-id";
 import { useRouter } from "next/router";
-import { GroupUserInfo } from "~/components/group-user-info";
-import { PollForm } from "~/components/poll-form";
-import { Card, CardContent, CardHeader, CardTitle } from "~/components/ui/card";
-import { Button } from "~/components/ui/button";
 import { Icons } from "~/components/icons";
-import { Badge } from "~/components/ui/badge";
-import { toLocalizedTime } from "~/lib/localization/to-localized-time";
+import { PollForm } from "~/components/poll-form";
 import { Avatar, AvatarFallback, AvatarImage } from "~/components/ui/avatar";
+import { Badge } from "~/components/ui/badge";
+import { Button } from "~/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "~/components/ui/card";
+import { useGetGroupById } from "~/lib/groups/get-group-by-id";
+import { toLocalizedTime } from "~/lib/localization/to-localized-time";
 
 export default function GroupDetailPage() {
   const router = useRouter();

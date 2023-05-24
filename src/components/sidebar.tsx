@@ -2,7 +2,6 @@ import { Icons } from "./icons";
 import { type SidebarRoute } from "~/lib/types/SidebarRoute";
 import { SidebarLink } from "~/components/sidebar-link";
 import { useSession } from "next-auth/react";
-import { useRouter } from "next/router";
 import Link from "next/link";
 import { cn } from "~/lib/utils";
 import { Avatar, AvatarFallback, AvatarImage } from "~/components/ui/avatar";
@@ -24,7 +23,6 @@ export function Sidebar() {
   const { status: sessionStatus, data: sessionData } = useSession();
   const username = sessionData?.user?.name;
   const userimage = sessionData?.user?.image ?? undefined;
-  const router = useRouter();
 
   return (
     <div className="flex flex-col gap-4 p-3 px-0">

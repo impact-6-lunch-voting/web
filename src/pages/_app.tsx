@@ -7,6 +7,7 @@ import "~/styles/globals.css";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { Layout } from "~/components/layout";
+import { Toaster } from "~/components/ui/toaster";
 
 const fontSans = Inter({
   subsets: ["latin"],
@@ -31,6 +32,7 @@ const MyApp: AppType<{ session: Session | null }> = ({
         <Layout>
           <div className={(fontSans.variable, fontHeading.variable)}>
             <Component {...pageProps} />
+            <Toaster />
           </div>
         </Layout>
       </SessionProvider>

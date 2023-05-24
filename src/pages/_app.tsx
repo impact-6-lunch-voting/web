@@ -4,6 +4,8 @@ import { type AppType } from "next/app";
 import { Inter, Syne } from "next/font/google";
 
 import "~/styles/globals.css";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 
 const fontSans = Inter({
   subsets: ["latin"],
@@ -16,16 +18,21 @@ const fontHeading = Syne({
   variable: "--font-heading",
 });
 
+const queryClient = new QueryClient();
+
 const MyApp: AppType<{ session: Session | null }> = ({
   Component,
   pageProps: { session, ...pageProps },
 }) => {
   return (
-    <SessionProvider session={session}>
-      <div className={(fontSans.variable, fontHeading.variable)}>
-        <Component {...pageProps} />
-      </div>
-    </SessionProvider>
+    <QueryClientProvider client={queryClient}>
+      <SessionProvider session={session}>
+        <div className={(fontSans.variable, fontHeading.variable)}>
+          <Component {...pageProps} />
+        </div>
+      </SessionProvider>
+      <ReactQueryDevtools initialIsOpen={false} />
+    </QueryClientProvider>
   );
 };
 

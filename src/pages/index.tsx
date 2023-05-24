@@ -2,6 +2,7 @@ import { type NextPage } from "next";
 import Head from "next/head";
 import Link from "next/link";
 import { useState } from "react";
+import { AddGroupDialog } from "~/components/add-group-dialog";
 import { Icons } from "~/components/icons";
 import { Avatar, AvatarFallback, AvatarImage } from "~/components/ui/avatar";
 import { Badge } from "~/components/ui/badge";
@@ -14,79 +15,14 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "~/components/ui/tooltip";
+import { useGetGroups } from "~/lib/groups/get-groups";
 import { toLocalizedTime } from "~/lib/localization/to-localized-time";
-import { type Group } from "~/lib/types/Group";
-import { AddGroupDialog } from "~/components/add-group-dialog";
-
-const groups: Group[] = [
-  {
-    id: "1",
-    name: "Die Coolen",
-    location: "Restaurant zum goldenen Anker",
-    startedAt: "2023-05-24T12:00:00+00:00",
-    finishedAt: "2023-05-24T13:00:00+00:00",
-    poll: {
-      id: "123",
-      name: "Restaurant",
-      startedAt: "2023-05-24T09:30:00+00:00",
-      finishedAt: "2023-05-24T11:00:00+00:00",
-      choices: [
-        { name: "Restaurant zum goldenen Anker", votes: [] },
-        { name: "Woanders", votes: [] },
-      ],
-    },
-    joinedUsers: [
-      {
-        profileName: "MechTee",
-        avatarUrl:
-          "https://t1.gstatic.com/licensed-image?q=tbn:ANd9GcShOeREOxQiNZUjbvhtxqDlV5vSPGvoriYwVrUgvdc417UDhf0ssygBeLxOul5YIqIy",
-        socialId: "nix",
-      },
-    ],
-  },
-  {
-    id: "2",
-    name: "Pizza lovers",
-    location: null,
-    startedAt: "2023-05-24T12:00:00+00:00",
-    finishedAt: "2023-05-24T13:00:00+00:00",
-    poll: {
-      id: "123",
-      name: "Restaurant",
-      startedAt: "2023-05-24T09:30:00+00:00",
-      finishedAt: "2023-05-24T11:00:00+00:00",
-      choices: [
-        { name: "Restaurant zum goldenen Anker", votes: [] },
-        { name: "Woanders", votes: [] },
-      ],
-    },
-    joinedUsers: [
-      {
-        profileName: "MechTee",
-        avatarUrl: "https://avatars.githubusercontent.com/u/6578098?s=64&v=4",
-        socialId: "nix",
-      },
-      {
-        profileName: "PierreBartholomae",
-        avatarUrl: "https://avatars.githubusercontent.com/u/84766047?s=64&v=4",
-        socialId: "nix",
-      },
-      {
-        profileName: "UlasCanAk",
-        avatarUrl: "https://avatars.githubusercontent.com/u/91264278?s=64&v=4",
-        socialId: "nix",
-      },
-      {
-        profileName: "lfext",
-        avatarUrl: "https://avatars.githubusercontent.com/u/134503669?s=96&v=4",
-        socialId: "nix",
-      },
-    ],
-  },
-];
 
 const Home: NextPage = () => {
   const [isLocationVoteFinished, setIsLocationVoteFinished] = useState();
+
+  const { data: groups } = useGetGroups();
+
   return (
     <>
       <Head>
@@ -101,108 +37,129 @@ const Home: NextPage = () => {
           Schließe dich einer Gruppe an oder erstelle eine eigene
         </h2>
 
-        <div className="flex w-full justify-between">
-          <div className="flex items-center space-x-3">
-            <Switch
-              checked={isLocationVoteFinished}
-              onCheckedChange={setIsLocationVoteFinished}
-            />
-            <span>Location steht fest</span>
+        {groups?.length !== 0 ? (
+          <div className="flex w-full justify-between">
+            <div className="flex items-center space-x-3">
+              <Switch
+                checked={isLocationVoteFinished}
+                onCheckedChange={setIsLocationVoteFinished}
+              />
+              <span>Location steht fest</span>
+            </div>
+            <AddGroupDialog />
           </div>
-          <AddGroupDialog />
-        </div>
+        ) : null}
 
-        {groups
-          .filter((group) => (isLocationVoteFinished ? !!group.location : true))
-          .map((group, index) => {
-            return (
-              <Link key={index} href="/groups/123">
-                <Card>
-                  <CardHeader>
-                    <div className="flex items-center justify-between">
-                      <CardTitle>{group.name}</CardTitle>
-                      <Button variant="default">Gruppe beitreten</Button>
-                    </div>
-                  </CardHeader>
-                  <CardContent>
-                    <div className="flex space-x-12">
-                      <div className="min-w-[300px]">
-                        <div className="flex h-12 items-center font-bold text-violet-400">
-                          <Icons.mapPin className="mr-2 h-4 w-4" />
-                          <span>Location</span>
-                        </div>
-                        <div className="flex min-h-[44px] items-center text-lg">
-                          {group.location ? (
+        {!!groups?.length ? (
+          groups
+            .filter((group) =>
+              isLocationVoteFinished ? !!group.location : true
+            )
+            .map((group, index) => {
+              return (
+                <Link key={index} href={`/groups/${group.id}`}>
+                  <Card>
+                    <CardHeader>
+                      <div className="flex items-center justify-between">
+                        <CardTitle>{group.name}</CardTitle>
+                        <Button variant="default">Gruppe beitreten</Button>
+                      </div>
+                    </CardHeader>
+                    <CardContent>
+                      <div className="flex space-x-12">
+                        <div className="min-w-[300px]">
+                          <div className="flex h-12 items-center font-bold text-violet-400">
+                            <Icons.building className="mr-2 h-4 w-4" />
+                            <span>Location</span>
+                          </div>
+                          <div className="flex min-h-[44px] items-center text-lg">
                             <span>{group.location}</span>
-                          ) : (
-                            <div>
-                              <Badge variant="secondary">
-                                Voting aktiv bis{" "}
-                                {toLocalizedTime(group.poll.finishedAt)} Uhr
-                              </Badge>
-                            </div>
-                          )}
+                          </div>
                         </div>
-                      </div>
 
-                      <div className="min-w-[200px]">
-                        <div className="flex h-12 items-center font-bold text-violet-400">
-                          <Icons.clock2 className="mr-2 h-4 w-4" />
-                          <span>Zeit</span>
+                        <div className="min-w-[300px]">
+                          <div className="flex h-12 items-center font-bold text-violet-400">
+                            <Icons.mapPin className="mr-2 h-4 w-4" />
+                            <span>Lunch Ort</span>
+                          </div>
+                          <div className="flex min-h-[44px] items-center text-lg">
+                            {group.location ? (
+                              <span>TODO</span>
+                            ) : (
+                              <div>
+                                <Badge variant="secondary">
+                                  Voting aktiv bis{" "}
+                                  {toLocalizedTime(group.poll.finishedAt)} Uhr
+                                </Badge>
+                              </div>
+                            )}
+                          </div>
                         </div>
-                        <div className="flex min-h-[44px] items-center text-lg">
-                          {toLocalizedTime(group.startedAt)} -{" "}
-                          {toLocalizedTime(group.finishedAt)} Uhr
-                        </div>
-                      </div>
 
-                      <div>
-                        <div className="flex h-12 items-center font-bold text-violet-400">
-                          <Icons.users className="mr-2 h-4 w-4" />
-                          <span>Teilnehmer</span>
+                        <div className="min-w-[200px]">
+                          <div className="flex h-12 items-center font-bold text-violet-400">
+                            <Icons.clock2 className="mr-2 h-4 w-4" />
+                            <span>Zeit</span>
+                          </div>
+                          <div className="flex min-h-[44px] items-center text-lg">
+                            {toLocalizedTime(group.startedAt)} -{" "}
+                            {toLocalizedTime(group.finishedAt)} Uhr
+                          </div>
                         </div>
-                        <div className="flex">
-                          {group.joinedUsers
-                            .slice(0, 3)
-                            .map((user, userIndex) => {
-                              return (
-                                <div
-                                  key={userIndex}
-                                  className="-m-2 flex min-h-[44px] items-center text-lg"
-                                >
-                                  <TooltipProvider>
-                                    <Tooltip>
-                                      <TooltipTrigger asChild>
-                                        <Avatar className="border-2 border-white">
-                                          <AvatarImage src={user.avatarUrl} />
-                                          <AvatarFallback>
-                                            {user.profileName.slice(0, 2)}
-                                          </AvatarFallback>
-                                        </Avatar>
-                                      </TooltipTrigger>
-                                      <TooltipContent>
-                                        {user.profileName}
-                                      </TooltipContent>
-                                    </Tooltip>
-                                  </TooltipProvider>
-                                </div>
-                              );
-                            })}
-                          {group.joinedUsers.length > 3 ? (
-                            <Avatar className="-m-2 border-2 border-white">
-                              <AvatarFallback>
-                                {`+ ${group.joinedUsers.length - 3}`}
-                              </AvatarFallback>
-                            </Avatar>
-                          ) : null}
+
+                        <div>
+                          <div className="flex h-12 items-center font-bold text-violet-400">
+                            <Icons.users className="mr-2 h-4 w-4" />
+                            <span>Teilnehmer</span>
+                          </div>
+                          <div className="flex">
+                            {group.joinedUsers
+                              .slice(0, 3)
+                              .map((user, userIndex) => {
+                                return (
+                                  <div
+                                    key={userIndex}
+                                    className="-m-2 flex min-h-[44px] items-center text-lg"
+                                  >
+                                    <TooltipProvider>
+                                      <Tooltip>
+                                        <TooltipTrigger asChild>
+                                          <Avatar className="border-2 border-white">
+                                            <AvatarImage src={user.avatarUrl} />
+                                            <AvatarFallback>
+                                              {user.profileName.slice(0, 2)}
+                                            </AvatarFallback>
+                                          </Avatar>
+                                        </TooltipTrigger>
+                                        <TooltipContent>
+                                          {user.profileName}
+                                        </TooltipContent>
+                                      </Tooltip>
+                                    </TooltipProvider>
+                                  </div>
+                                );
+                              })}
+                            {group.joinedUsers.length > 3 ? (
+                              <Avatar className="-m-2 border-2 border-white">
+                                <AvatarFallback>
+                                  {`+ ${group.joinedUsers.length - 3}`}
+                                </AvatarFallback>
+                              </Avatar>
+                            ) : null}
+                          </div>
                         </div>
                       </div>
-                    </div>
-                  </CardContent>
-                </Card>
-              </Link>
-            );
-          })}
+                    </CardContent>
+                  </Card>
+                </Link>
+              );
+            })
+        ) : (
+          <div className="flex h-[300px] w-full items-center justify-center space-x-6 bg-gray-50">
+            <h2>Lege die erste Gruppe an</h2>
+            <AddGroupDialog />
+          </div>
+        )}
       </main>
     </>
   );

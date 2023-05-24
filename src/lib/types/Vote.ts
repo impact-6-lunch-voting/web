@@ -3,6 +3,6 @@ import { type User } from "~/lib/types/User";
 
 export interface Vote {
   value: number;
-  choice: Choice;
+  choice?: Choice;
   user: User;
 }

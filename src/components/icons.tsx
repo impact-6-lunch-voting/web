@@ -29,6 +29,8 @@ import {
   X,
   type Icon as LucideIcon,
   type LucideProps,
+  Globe2,
+  Building,
 } from "lucide-react";
 
 export type Icon = LucideIcon;
@@ -37,11 +39,13 @@ export const Icons = {
   add: Plus,
   arrowRight: ArrowRight,
   billing: CreditCard,
+  building: Building,
   chevronLeft: ChevronLeft,
   chevronRight: ChevronRight,
   clock2: Clock2,
   close: X,
   ellipsis: MoreVertical,
+  globe2: Globe2,
   help: HelpCircle,
   laptop: Laptop,
   login: LogIn,

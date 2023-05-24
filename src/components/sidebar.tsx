@@ -12,11 +12,6 @@ const sidebarRoutes: SidebarRoute[] = [
     routeUrl: "/",
     routeIcon: <Icons.pizza className="mr-2 h-4 w-4" />,
   },
-  {
-    routeText: "Add Group",
-    routeUrl: "/groups/add",
-    routeIcon: <Icons.add className="mr-2 h-4 w-4" />,
-  },
 ];
 
 export function Sidebar() {

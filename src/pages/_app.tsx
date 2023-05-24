@@ -28,11 +28,11 @@ const MyApp: AppType<{ session: Session | null }> = ({
   return (
     <QueryClientProvider client={queryClient}>
       <SessionProvider session={session}>
-          <Layout>
-        <div className={(fontSans.variable, fontHeading.variable)}>
-          <Component {...pageProps} />
-        </div>
-          </Layout>
+        <Layout>
+          <div className={(fontSans.variable, fontHeading.variable)}>
+            <Component {...pageProps} />
+          </div>
+        </Layout>
       </SessionProvider>
       <ReactQueryDevtools initialIsOpen={false} />
     </QueryClientProvider>

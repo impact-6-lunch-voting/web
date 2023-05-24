@@ -10,10 +10,11 @@ import { Card, CardContent, CardHeader, CardTitle } from "~/components/ui/card";
 import { Switch } from "~/components/ui/switch";
 import { toLocalizedTime } from "~/lib/localization/to-localized-time";
 import { type Group } from "~/lib/types/Group";
+import { AddGroupDialog } from "~/components/add-group-dialog";
 
 const groups: Group[] = [
   {
-    id: 1,
+    id: "1",
     name: "Die Coolen",
     location: "Restaurant zum goldenen Anker",
     startedAt: "2023-05-24T12:00:00+00:00",
@@ -38,6 +39,7 @@ const groups: Group[] = [
     ],
   },
   {
+    id: "2",
     name: "Pizza lovers",
     location: null,
     startedAt: "2023-05-24T12:00:00+00:00",
@@ -87,12 +89,7 @@ const Home: NextPage = () => {
             />
             <span>Location steht fest</span>
           </div>
-          <Button asChild variant="ghost">
-            <Link href="/create-group">
-              <Icons.add className="mr-2 h-4 w-4" />
-              <span>Gruppe hinzufügen</span>
-            </Link>
-          </Button>
+          <AddGroupDialog />
         </div>
 
         {groups

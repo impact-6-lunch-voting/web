@@ -12,5 +12,6 @@ export async function addVoteToPoll(
       [choiceId]: 1,
     },
   });
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-return
   return res.data;
 }

@@ -8,4 +8,5 @@ export interface Poll {
   finishedAt: string;
 }
 
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface PollCreate {}

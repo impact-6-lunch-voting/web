@@ -82,6 +82,7 @@ export function PollForm({ poll, groupId }: PollFormProps) {
 
     addVoteToPollMutation({
       userId,
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
       choiceId: choice.id,
       choiceName: data.name,
     });
@@ -89,6 +90,7 @@ export function PollForm({ poll, groupId }: PollFormProps) {
 
   return (
     <Form {...form}>
+      {/* eslint-disable-next-line @typescript-eslint/no-misused-promises */}
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6 ">
         <FormField
           control={form.control}

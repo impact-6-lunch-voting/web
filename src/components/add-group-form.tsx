@@ -68,6 +68,7 @@ export function AddGroupForm({ onSubmitSuccessful }: AddGroupFormProps) {
 
   return (
     <Form {...form} control={form.control}>
+      {/* eslint-disable-next-line @typescript-eslint/no-misused-promises */}
       <form onSubmit={form.handleSubmit(onSubmit)} className="w-2/3 space-y-6">
         <FormField
           name="groupName"

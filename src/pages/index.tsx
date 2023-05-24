@@ -19,7 +19,7 @@ import { useGetGroups } from "~/lib/groups/get-groups";
 import { toLocalizedTime } from "~/lib/localization/to-localized-time";
 
 const Home: NextPage = () => {
-  const [isLocationVoteFinished, setIsLocationVoteFinished] = useState();
+  const [isLocationVoteFinished, setIsLocationVoteFinished] = useState(false);
 
   const { data: groups } = useGetGroups();
 

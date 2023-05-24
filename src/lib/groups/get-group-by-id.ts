@@ -3,7 +3,8 @@ import { useQuery } from "@tanstack/react-query";
 
 export function getGroupById(id: string) {
   const group: Group = {
-    finishedAt: "12:00 Uhr",
+    startedAt: "2023-05-24T12:00:00+00:00",
+    finishedAt: "2023-05-24T13:00:00+00:00",
     joinedUsers: [
       {
         avatarUrl:
@@ -34,7 +35,6 @@ export function getGroupById(id: string) {
         },
       ],
     },
-    startedAt: "10:00 Uhr",
   };
 
   return group;

@@ -2,7 +2,12 @@ import { useGetGroupById } from "~/lib/groups/get-group-by-id";
 import { useRouter } from "next/router";
 import { GroupUserInfo } from "~/components/group-user-info";
 import { PollForm } from "~/components/poll-form";
-import { Card } from "~/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "~/components/ui/card";
+import { Button } from "~/components/ui/button";
+import { Icons } from "~/components/icons";
+import { Badge } from "~/components/ui/badge";
+import { toLocalizedTime } from "~/lib/localization/to-localized-time";
+import { Avatar, AvatarFallback, AvatarImage } from "~/components/ui/avatar";
 
 export default function GroupDetailPage() {
   const router = useRouter();
@@ -21,26 +26,120 @@ export default function GroupDetailPage() {
   const { name, joinedUsers, location, startedAt, finishedAt, poll } = group;
 
   return (
-    <div className="w flex flex-col items-center justify-center gap-2 ">
-      <div className="flex flex-col items-center justify-center gap-2">
+    <div className="w flex flex-col gap-2 ">
+      <div className="flex flex-col gap-2">
         <h1 className="text-5xl font-bold">Group: {name}</h1>
-        <div className="mt-16 flex flex-row gap-8">
-          <div>
-            <Card className="flex w-full min-w-[350px] flex-col gap-4 px-6 py-4">
-              <p className="text-3xl">Location: {location}</p>
-              <p className="text-3xl">Started at: {startedAt}</p>
-              <p className="text-3xl">Finished at: {finishedAt}</p>
-            </Card>
-          </div>
-          <Card className="flex max-h-72 min-w-[350px] flex-col overflow-scroll px-6 py-4">
-            <h2 className="pb-4 font-bold">Teilnehmer:</h2>
-            {joinedUsers.map((user) => (
-              <div key={user.socialId} className="flex flex-col gap-4">
-                <GroupUserInfo user={user} />
+        <Card className="mt-12 max-h-[360px] overflow-scroll">
+          <CardHeader>
+            <div className="flex items-center justify-between">
+              <CardTitle>{group.name}</CardTitle>
+              <Button variant="default">Gruppe beitreten</Button>
+            </div>
+          </CardHeader>
+          <CardContent>
+            <div className="flex space-x-12">
+              <div className="min-w-[300px]">
+                <div className="flex h-12 items-center font-bold text-violet-400">
+                  <Icons.mapPin className="mr-2 h-4 w-4" />
+                  <span>Location</span>
+                </div>
+                <div className="flex min-h-[44px] items-center text-lg">
+                  {group.location ? (
+                    <span>{group.location}</span>
+                  ) : (
+                    <div>
+                      <Badge variant="secondary">
+                        Voting aktiv bis{" "}
+                        {toLocalizedTime(group.poll.finishedAt)} Uhr
+                      </Badge>
+                    </div>
+                  )}
+                </div>
               </div>
-            ))}
-          </Card>
-        </div>
+
+              <div className="min-w-[200px]">
+                <div className="flex h-12 items-center font-bold text-violet-400">
+                  <Icons.clock2 className="mr-2 h-4 w-4" />
+                  <span>Zeit</span>
+                </div>
+                <div className="flex min-h-[44px] items-center text-lg">
+                  {toLocalizedTime(group.startedAt)} -{" "}
+                  {toLocalizedTime(group.finishedAt)} Uhr
+                </div>
+              </div>
+
+              <div>
+                <div className="flex h-12 items-center font-bold text-violet-400">
+                  <Icons.users className="mr-2 h-4 w-4" />
+                  <span>Teilnehmer</span>
+                </div>
+                {group.joinedUsers.map((user, userIndex) => {
+                  return (
+                    <div
+                      key={userIndex}
+                      className="flex flex-col items-center gap-4 text-lg"
+                    >
+                      <div className="flex flex-row gap-2">
+                        <Avatar>
+                          <AvatarImage src={user.avatarUrl} />
+                          <AvatarFallback>
+                            {user.profileName.slice(0, 2)}
+                          </AvatarFallback>
+                        </Avatar>
+                        <p className="pl-2">{user.profileName}</p>
+                      </div>
+                      <div className="flex flex-row gap-2">
+                        <Avatar>
+                          <AvatarImage src={user.avatarUrl} />
+                          <AvatarFallback>
+                            {user.profileName.slice(0, 2)}
+                          </AvatarFallback>
+                        </Avatar>
+                        <p className="pl-2">{user.profileName}</p>
+                      </div>
+                      <div className="flex flex-row gap-2">
+                        <Avatar>
+                          <AvatarImage src={user.avatarUrl} />
+                          <AvatarFallback>
+                            {user.profileName.slice(0, 2)}
+                          </AvatarFallback>
+                        </Avatar>
+                        <p className="pl-2">{user.profileName}</p>
+                      </div>
+                      <div className="flex flex-row gap-2">
+                        <Avatar>
+                          <AvatarImage src={user.avatarUrl} />
+                          <AvatarFallback>
+                            {user.profileName.slice(0, 2)}
+                          </AvatarFallback>
+                        </Avatar>
+                        <p className="pl-2">{user.profileName}</p>
+                      </div>
+                      <div className="flex flex-row gap-2">
+                        <Avatar>
+                          <AvatarImage src={user.avatarUrl} />
+                          <AvatarFallback>
+                            {user.profileName.slice(0, 2)}
+                          </AvatarFallback>
+                        </Avatar>
+                        <p className="pl-2">{user.profileName}</p>
+                      </div>
+                      <div className="flex flex-row gap-2">
+                        <Avatar>
+                          <AvatarImage src={user.avatarUrl} />
+                          <AvatarFallback>
+                            {user.profileName.slice(0, 2)}
+                          </AvatarFallback>
+                        </Avatar>
+                        <p className="pl-2">{user.profileName}</p>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          </CardContent>
+        </Card>
         <div className="flex flex-col pt-20">
           <PollForm poll={poll} groupId={id} />
         </div>
